@@ -75,19 +75,20 @@ export default class EventCalendar extends React.Component {
       end = 24,
       formatHeader,
       upperCaseHeader = false,
+      lineHalf,
     } = this.props;
     const date = moment(initDate).add(index - this.props.size, 'days');
 
     const leftIcon = this.props.headerIconLeft ? (
       this.props.headerIconLeft
     ) : (
-        <Image source={require('./back.png')} style={this.styles.arrow} />
-      );
+      <Image source={require('./back.png')} style={this.styles.arrow} />
+    );
     const rightIcon = this.props.headerIconRight ? (
       this.props.headerIconRight
     ) : (
-        <Image source={require('./forward.png')} style={this.styles.arrow} />
-      );
+      <Image source={require('./forward.png')} style={this.styles.arrow} />
+    );
 
     let headerText = upperCaseHeader
       ? date.format(formatHeader || 'DD MMMM YYYY').toUpperCase()
@@ -120,6 +121,7 @@ export default class EventCalendar extends React.Component {
           headerStyle={this.props.headerStyle}
           renderEvent={this.props.renderEvent}
           eventTapped={this.props.eventTapped}
+          lineHalf={lineHalf}
           events={item}
           width={width}
           styles={this.styles}
@@ -175,12 +177,7 @@ export default class EventCalendar extends React.Component {
   };
 
   render() {
-    const {
-      width,
-      virtualizedListProps,
-      events,
-      initDate,
-    } = this.props;
+    const { width, virtualizedListProps, events, initDate } = this.props;
 
     return (
       <View style={[this.styles.container, { width }]}>

@@ -96,8 +96,8 @@ export default class DayView extends React.PureComponent {
       } else {
         timeText = !format24h ? `${i - 12} PM` : `${i}:00`;
       }
-      const { width, styles } = this.props;
-      return [
+      const { width, styles, lineHalf } = this.props;
+      const array = [
         <Text
           key={`timeLabel${i}`}
           style={[styles.timeLabel, { top: offset * index - 6 }]}
@@ -107,17 +107,27 @@ export default class DayView extends React.PureComponent {
         i === start ? null : (
           <Dash
             key={`line${i}`}
+            dashThickness={1}
+            dashColor={styles.line.color}
             style={[styles.line, { top: offset * index, width: width - 20 }]}
           />
         ),
-        <Dash
-          key={`lineHalf${i}`}
-          style={[
-            styles.line,
-            { top: offset * (index + 0.5), width: width - 20 },
-          ]}
-        />,
       ];
+
+      if (lineHalf) {
+        array.push(
+          <Dash
+            key={`lineHalf${i}`}
+            dashThickness={1}
+            dashColor={styles.line.color}
+            style={[
+              styles.line,
+              { top: offset * (index + 0.5), width: width - 20 },
+            ]}
+          />
+        );
+      }
+      return array;
     });
   }
 
