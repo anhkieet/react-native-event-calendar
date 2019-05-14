@@ -85,15 +85,15 @@ export default class DayView extends React.PureComponent {
     return range(start, end + 1).map((i, index) => {
       let timeText;
       if (i === start) {
-        timeText = ``;
+        timeText = !format24h ? `12 AM` : `00:00`;;
       } else if (i < 12) {
-        timeText = !format24h ? `${i} AM` : i;
+        timeText = !format24h ? `${i} AM` : `0${i}:00`;
       } else if (i === 12) {
-        timeText = !format24h ? `${i} PM` : i;
+        timeText = !format24h ? `${i} PM` : `${i}:00`;
       } else if (i === 24) {
-        timeText = !format24h ? `12 AM` : 0;
+        timeText = !format24h ? `12 AM` : `0:00`;
       } else {
-        timeText = !format24h ? `${i - 12} PM` : i;
+        timeText = !format24h ? `${i - 12} PM` : `${i}:00`;
       }
       const { width, styles } = this.props;
       return [
@@ -164,26 +164,26 @@ export default class DayView extends React.PureComponent {
           {this.props.renderEvent ? (
             this.props.renderEvent(event)
           ) : (
-            <View>
-              <Text numberOfLines={1} style={styles.eventTitle}>
-                {event.title || 'Event'}
-              </Text>
-              {numberOfLines > 1 ? (
-                <Text
-                  numberOfLines={numberOfLines - 1}
-                  style={[styles.eventSummary]}
-                >
-                  {event.summary || ' '}
+              <View>
+                <Text numberOfLines={1} style={styles.eventTitle}>
+                  {event.title || 'Event'}
                 </Text>
-              ) : null}
-              {numberOfLines > 2 ? (
-                <Text style={styles.eventTimes} numberOfLines={1}>
-                  {moment(event.start).format(formatTime)} -{' '}
-                  {moment(event.end).format(formatTime)}
-                </Text>
-              ) : null}
+                {numberOfLines > 1 ? (
+                  <Text
+                    numberOfLines={numberOfLines - 1}
+                    style={[styles.eventSummary]}
+                  >
+                    {event.summary || ' '}
+                  </Text>
+                ) : null}
+                {numberOfLines > 2 ? (
+                  <Text style={styles.eventTimes} numberOfLines={1}>
+                    {moment(event.start).format(formatTime)} -{' '}
+                    {moment(event.end).format(formatTime)}
+                  </Text>
+                ) : null}
               </View>
-          )}
+            )}
         </TouchableOpacity>
       );
     });

@@ -75,7 +75,6 @@ export default class EventCalendar extends React.Component {
       end = 24,
       formatHeader,
       upperCaseHeader = false,
-      headerStyle
     } = this.props;
     const date = moment(initDate).add(index - this.props.size, 'days');
 
@@ -96,7 +95,7 @@ export default class EventCalendar extends React.Component {
 
     return (
       <View style={[this.styles.container, { width }]}>
-        <View style={[this.styles.header, headerStyle]}>
+        <View style={this.styles.header}>
           <TouchableOpacity
             style={this.styles.arrowButton}
             onPress={this._previous}
