@@ -85,9 +85,9 @@ export default class DayView extends React.PureComponent {
     return range(start, end + 1).map((i, index) => {
       let timeText;
       if (i === start) {
-        timeText = !format24h ? `12 AM` : `00:00`;;
+        timeText = !format24h ? `12 AM` : `0:00`;;
       } else if (i < 12) {
-        timeText = !format24h ? `${i} AM` : `0${i}:00`;
+        timeText = !format24h ? `${i} AM` : `${i}:00`;
       } else if (i === 12) {
         timeText = !format24h ? `${i} PM` : `${i}:00`;
       } else if (i === 24) {
