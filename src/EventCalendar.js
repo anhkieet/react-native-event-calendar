@@ -75,30 +75,31 @@ export default class EventCalendar extends React.Component {
       end = 24,
       formatHeader,
       upperCaseHeader = false,
+      headerStyle
     } = this.props;
     const date = moment(initDate).add(index - this.props.size, 'days');
 
     const leftIcon = this.props.headerIconLeft ? (
-        this.props.headerIconLeft
+      this.props.headerIconLeft
     ) : (
         <Image source={require('./back.png')} style={this.styles.arrow} />
-    );
+      );
     const rightIcon = this.props.headerIconRight ? (
-        this.props.headerIconRight
+      this.props.headerIconRight
     ) : (
         <Image source={require('./forward.png')} style={this.styles.arrow} />
-    );
+      );
 
     let headerText = upperCaseHeader
-        ? date.format(formatHeader || 'DD MMMM YYYY').toUpperCase()
-        : date.format(formatHeader || 'DD MMMM YYYY');
+      ? date.format(formatHeader || 'DD MMMM YYYY').toUpperCase()
+      : date.format(formatHeader || 'DD MMMM YYYY');
 
     return (
       <View style={[this.styles.container, { width }]}>
-        <View style={this.styles.header}>
+        <View style={[this.styles.header, ...headerStyle]}>
           <TouchableOpacity
-              style={this.styles.arrowButton}
-              onPress={this._previous}
+            style={this.styles.arrowButton}
+            onPress={this._previous}
           >
             {leftIcon}
           </TouchableOpacity>
@@ -106,8 +107,8 @@ export default class EventCalendar extends React.Component {
             <Text style={this.styles.headerText}>{headerText}</Text>
           </View>
           <TouchableOpacity
-              style={this.styles.arrowButton}
-              onPress={this._next}
+            style={this.styles.arrowButton}
+            onPress={this._next}
           >
             {rightIcon}
           </TouchableOpacity>
