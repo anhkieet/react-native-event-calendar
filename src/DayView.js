@@ -59,10 +59,13 @@ export default class DayView extends React.PureComponent {
 
   _renderRedLine() {
     const offset = 100;
-    const { format24h } = this.props;
+    const { format24h, date } = this.props;
     const { width, styles } = this.props;
     const timeNowHour = moment().hour();
     const timeNowMin = moment().minutes();
+    if (!date.isSame(moment(), 'day')) {
+      return null;
+    }
     return (
       <View
         key={`timeNow`}
