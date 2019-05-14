@@ -4,6 +4,7 @@ import populateEvents from './Packer';
 import React from 'react';
 import moment from 'moment';
 import _ from 'lodash';
+import Dash from 'react-native-dash';
 
 const LEFT_MARGIN = 60 - 1;
 // const RIGHT_MARGIN = 10
@@ -85,7 +86,7 @@ export default class DayView extends React.PureComponent {
     return range(start, end + 1).map((i, index) => {
       let timeText;
       if (i === start) {
-        timeText = !format24h ? `12 AM` : `0:00`;;
+        timeText = !format24h ? `12 AM` : `0:00`;
       } else if (i < 12) {
         timeText = !format24h ? `${i} AM` : `${i}:00`;
       } else if (i === 12) {
@@ -104,12 +105,12 @@ export default class DayView extends React.PureComponent {
           {timeText}
         </Text>,
         i === start ? null : (
-          <View
+          <Dash
             key={`line${i}`}
             style={[styles.line, { top: offset * index, width: width - 20 }]}
           />
         ),
-        <View
+        <Dash
           key={`lineHalf${i}`}
           style={[
             styles.line,
@@ -156,34 +157,33 @@ export default class DayView extends React.PureComponent {
       return (
         <TouchableOpacity
           activeOpacity={0.5}
-          onPress={() =>
-            this._onEventTapped(this.props.events[event.index])
-          }
-          key={i} style={[styles.event, style, event.color && eventColor]}
+          onPress={() => this._onEventTapped(this.props.events[event.index])}
+          key={i}
+          style={[styles.event, style, event.color && eventColor]}
         >
           {this.props.renderEvent ? (
             this.props.renderEvent(event)
           ) : (
-              <View>
-                <Text numberOfLines={1} style={styles.eventTitle}>
-                  {event.title || 'Event'}
+            <View>
+              <Text numberOfLines={1} style={styles.eventTitle}>
+                {event.title || 'Event'}
+              </Text>
+              {numberOfLines > 1 ? (
+                <Text
+                  numberOfLines={numberOfLines - 1}
+                  style={[styles.eventSummary]}
+                >
+                  {event.summary || ' '}
                 </Text>
-                {numberOfLines > 1 ? (
-                  <Text
-                    numberOfLines={numberOfLines - 1}
-                    style={[styles.eventSummary]}
-                  >
-                    {event.summary || ' '}
-                  </Text>
-                ) : null}
-                {numberOfLines > 2 ? (
-                  <Text style={styles.eventTimes} numberOfLines={1}>
-                    {moment(event.start).format(formatTime)} -{' '}
-                    {moment(event.end).format(formatTime)}
-                  </Text>
-                ) : null}
-              </View>
-            )}
+              ) : null}
+              {numberOfLines > 2 ? (
+                <Text style={styles.eventTimes} numberOfLines={1}>
+                  {moment(event.start).format(formatTime)} -{' '}
+                  {moment(event.end).format(formatTime)}
+                </Text>
+              ) : null}
+            </View>
+          )}
         </TouchableOpacity>
       );
     });
