@@ -111,8 +111,8 @@ export default class DayView extends React.PureComponent {
           <Dash
             key={`line${i}`}
             dashThickness={1}
-            dashColor={styles.line.color}
-            style={[styles.line, { top: offset * index, width: width - 20 }]}
+            dashColor={'#CCCCCC'}
+            style={[{ top: offset * index, width: width - 20 }]}
           />
         ),
       ];
@@ -122,9 +122,8 @@ export default class DayView extends React.PureComponent {
           <Dash
             key={`lineHalf${i}`}
             dashThickness={1}
-            dashColor={styles.line.color}
+            dashColor={'#CCCCCC'}
             style={[
-              styles.line,
               { top: offset * (index + 0.5), width: width - 20 },
             ]}
           />
@@ -177,26 +176,26 @@ export default class DayView extends React.PureComponent {
           {this.props.renderEvent ? (
             this.props.renderEvent(event)
           ) : (
-            <View>
-              <Text numberOfLines={1} style={styles.eventTitle}>
-                {event.title || 'Event'}
-              </Text>
-              {numberOfLines > 1 ? (
-                <Text
-                  numberOfLines={numberOfLines - 1}
-                  style={[styles.eventSummary]}
-                >
-                  {event.summary || ' '}
+              <View>
+                <Text numberOfLines={1} style={styles.eventTitle}>
+                  {event.title || 'Event'}
                 </Text>
-              ) : null}
-              {numberOfLines > 2 ? (
-                <Text style={styles.eventTimes} numberOfLines={1}>
-                  {moment(event.start).format(formatTime)} -{' '}
-                  {moment(event.end).format(formatTime)}
-                </Text>
-              ) : null}
-            </View>
-          )}
+                {numberOfLines > 1 ? (
+                  <Text
+                    numberOfLines={numberOfLines - 1}
+                    style={[styles.eventSummary]}
+                  >
+                    {event.summary || ' '}
+                  </Text>
+                ) : null}
+                {numberOfLines > 2 ? (
+                  <Text style={styles.eventTimes} numberOfLines={1}>
+                    {moment(event.start).format(formatTime)} -{' '}
+                    {moment(event.end).format(formatTime)}
+                  </Text>
+                ) : null}
+              </View>
+            )}
         </TouchableOpacity>
       );
     });
