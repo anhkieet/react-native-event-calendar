@@ -6,8 +6,8 @@ import moment from 'moment';
 import _ from 'lodash';
 import Dash from 'react-native-dash';
 
-const LEFT_MARGIN = 60 - 1;
-// const RIGHT_MARGIN = 10
+const LEFT_MARGIN = 50 - 1;
+const RIGHT_MARGIN = 20;
 const CALENDER_HEIGHT = 2400;
 // const EVENT_TITLE_HEIGHT = 15
 const TEXT_LINE_HEIGHT = 17;
@@ -22,7 +22,7 @@ export default class DayView extends React.PureComponent {
   constructor(props) {
     super(props);
     this.calendarHeight = (props.end - props.start) * 100;
-    const width = props.width - LEFT_MARGIN;
+    const width = props.width - LEFT_MARGIN - RIGHT_MARGIN;
     const packedEvents = populateEvents(props.events, width, props.start);
     let initPosition =
       _.min(_.map(packedEvents, 'top')) -
@@ -35,7 +35,7 @@ export default class DayView extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const width = nextProps.width - LEFT_MARGIN;
+    const width = nextProps.width - LEFT_MARGIN - RIGHT_MARGIN;
     this.setState({
       packedEvents: populateEvents(nextProps.events, width, nextProps.start),
     });
