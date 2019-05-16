@@ -112,7 +112,7 @@ export default class DayView extends React.PureComponent {
             key={`line${i}`}
             dashThickness={1}
             dashColor={'#CCCCCC'}
-            style={[{ top: offset * index, width: width - 20 }]}
+            style={[styles.line, { top: offset * index, width: width - 20 }]}
           />
         ),
       ];
@@ -124,6 +124,7 @@ export default class DayView extends React.PureComponent {
             dashThickness={1}
             dashColor={'#CCCCCC'}
             style={[
+              styles.line,
               { top: offset * (index + 0.5), width: width - 20 },
             ]}
           />
