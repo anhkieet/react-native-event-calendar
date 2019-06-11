@@ -2,7 +2,7 @@
 import moment from 'moment';
 const offset = 100;
 
-function buildEvent(column, left, width, dayStart) {
+function buildEvent(column, left, width, dayStart, colLength) {
   const startTime = moment(column.start);
   const endTime = column.end
     ? moment(column.end)
@@ -17,6 +17,7 @@ function buildEvent(column, left, width, dayStart) {
   column.height = endTime.diff(startTime, 'hours', true) * offset;
   column.width = width;
   column.left = left;
+  column.colLength = colLength;
   return column;
 }
 
@@ -51,7 +52,7 @@ function pack(columns, width, calculatedEvents, dayStart) {
       var L = (i / colLength) * width;
       var W = (width * colSpan) / colLength - 10;
 
-      calculatedEvents.push(buildEvent(col[j], L, W, dayStart));
+      calculatedEvents.push(buildEvent(col[j], L, W, dayStart, colLength));
     }
   }
 }
