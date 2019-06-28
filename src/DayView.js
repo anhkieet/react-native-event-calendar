@@ -22,7 +22,7 @@ export default class DayView extends React.PureComponent {
     super(props);
     this.calendarHeight = (props.end - props.start) * (props.hourHeight || 100);
     const width = props.width - LEFT_MARGIN;
-    const packedEvents = populateEvents(props.events, width, props.start);
+    const packedEvents = populateEvents(props.events, width, props.start, (props.hourHeight || 100));
     let initPosition =
       _.min(_.map(packedEvents, 'top')) -
       this.calendarHeight / (props.end - props.start);
@@ -36,7 +36,7 @@ export default class DayView extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     const width = nextProps.width - LEFT_MARGIN;
     this.setState({
-      packedEvents: populateEvents(nextProps.events, width, nextProps.start),
+      packedEvents: populateEvents(nextProps.events, width, nextProps.start, (props.hourHeight || 100)),
     });
   }
 
