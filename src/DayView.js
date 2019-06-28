@@ -20,7 +20,7 @@ function range(from, to) {
 export default class DayView extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.calendarHeight = (props.end - props.start) * 100;
+    this.calendarHeight = (props.end - props.start) * (props.hourHeight || 100);
     const width = props.width - LEFT_MARGIN;
     const packedEvents = populateEvents(props.events, width, props.start);
     let initPosition =
@@ -57,8 +57,7 @@ export default class DayView extends React.PureComponent {
   }
 
   _renderRedLine() {
-    const offset = 100;
-    const { format24h } = this.props;
+    const offset = this.props.hourHeight || 100;
     const { width, styles } = this.props;
     const timeNowHour = moment().hour();
     const timeNowMin = moment().minutes();
@@ -164,26 +163,26 @@ export default class DayView extends React.PureComponent {
           {this.props.renderEvent ? (
             this.props.renderEvent(event)
           ) : (
-            <View>
-              <Text numberOfLines={1} style={styles.eventTitle}>
-                {event.title || 'Event'}
-              </Text>
-              {numberOfLines > 1 ? (
-                <Text
-                  numberOfLines={numberOfLines - 1}
-                  style={[styles.eventSummary]}
-                >
-                  {event.summary || ' '}
+              <View>
+                <Text numberOfLines={1} style={styles.eventTitle}>
+                  {event.title || 'Event'}
                 </Text>
-              ) : null}
-              {numberOfLines > 2 ? (
-                <Text style={styles.eventTimes} numberOfLines={1}>
-                  {moment(event.start).format(formatTime)} -{' '}
-                  {moment(event.end).format(formatTime)}
-                </Text>
-              ) : null}
+                {numberOfLines > 1 ? (
+                  <Text
+                    numberOfLines={numberOfLines - 1}
+                    style={[styles.eventSummary]}
+                  >
+                    {event.summary || ' '}
+                  </Text>
+                ) : null}
+                {numberOfLines > 2 ? (
+                  <Text style={styles.eventTimes} numberOfLines={1}>
+                    {moment(event.start).format(formatTime)} -{' '}
+                    {moment(event.end).format(formatTime)}
+                  </Text>
+                ) : null}
               </View>
-          )}
+            )}
         </TouchableOpacity>
       );
     });
