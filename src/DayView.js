@@ -37,7 +37,7 @@ export default class DayView extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     const width = nextProps.width - LEFT_MARGIN - RIGHT_MARGIN;
     this.setState({
-      packedEvents: populateEvents(nextProps.events, width, nextProps.start, (props.hourHeight || 100)),
+      packedEvents: populateEvents(nextProps.events, width, nextProps.start, (this.props.hourHeight || 100)),
     });
   }
 
@@ -59,8 +59,7 @@ export default class DayView extends React.PureComponent {
 
   _renderRedLine() {
     const offset = this.props.hourHeight || 100;
-    const { format24h, date } = this.props;
-    const { width, styles } = this.props;
+    const { width, styles, date } = this.props;
     const timeNowHour = moment().hour();
     const timeNowMin = moment().minutes();
     if (!date.isSame(moment(), 'day')) {
