@@ -4,9 +4,10 @@ import populateEvents from './Packer';
 import React from 'react';
 import moment from 'moment';
 import _ from 'lodash';
+import Dash from 'react-native-dash';
 
-const LEFT_MARGIN = 60 - 1;
-// const RIGHT_MARGIN = 10
+const LEFT_MARGIN = 50 - 1;
+const RIGHT_MARGIN = 20;
 const CALENDER_HEIGHT = 2400;
 // const EVENT_TITLE_HEIGHT = 15
 const TEXT_LINE_HEIGHT = 17;
@@ -21,7 +22,7 @@ export default class DayView extends React.PureComponent {
   constructor(props) {
     super(props);
     this.calendarHeight = (props.end - props.start) * (props.hourHeight || 100);
-    const width = props.width - LEFT_MARGIN;
+    const width = props.width - LEFT_MARGIN - RIGHT_MARGIN;
     const packedEvents = populateEvents(props.events, width, props.start, (props.hourHeight || 100));
     let initPosition =
       _.min(_.map(packedEvents, 'top')) -
@@ -34,7 +35,7 @@ export default class DayView extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const width = nextProps.width - LEFT_MARGIN;
+    const width = nextProps.width - LEFT_MARGIN - RIGHT_MARGIN;
     this.setState({
       packedEvents: populateEvents(nextProps.events, width, nextProps.start, (props.hourHeight || 100)),
     });
@@ -58,9 +59,13 @@ export default class DayView extends React.PureComponent {
 
   _renderRedLine() {
     const offset = this.props.hourHeight || 100;
+    const { format24h, date } = this.props;
     const { width, styles } = this.props;
     const timeNowHour = moment().hour();
     const timeNowMin = moment().minutes();
+    if (!date.isSame(moment(), 'day')) {
+      return null;
+    }
     return (
       <View
         key={`timeNow`}
@@ -84,18 +89,18 @@ export default class DayView extends React.PureComponent {
     return range(start, end + 1).map((i, index) => {
       let timeText;
       if (i === start) {
-        timeText = ``;
+        timeText = !format24h ? `12 AM` : `0:00`;
       } else if (i < 12) {
-        timeText = !format24h ? `${i} AM` : i;
+        timeText = !format24h ? `${i} AM` : `${i}:00`;
       } else if (i === 12) {
-        timeText = !format24h ? `${i} PM` : i;
+        timeText = !format24h ? `${i} PM` : `${i}:00`;
       } else if (i === 24) {
-        timeText = !format24h ? `12 AM` : 0;
+        timeText = !format24h ? `12 AM` : `0:00`;
       } else {
-        timeText = !format24h ? `${i - 12} PM` : i;
+        timeText = !format24h ? `${i - 12} PM` : `${i}:00`;
       }
-      const { width, styles } = this.props;
-      return [
+      const { width, styles, lineHalf } = this.props;
+      const array = [
         <Text
           key={`timeLabel${i}`}
           style={[styles.timeLabel, { top: offset * index - 6 }]}
@@ -103,19 +108,29 @@ export default class DayView extends React.PureComponent {
           {timeText}
         </Text>,
         i === start ? null : (
-          <View
+          <Dash
             key={`line${i}`}
+            dashThickness={1}
+            dashColor={'#CCCCCC'}
             style={[styles.line, { top: offset * index, width: width - 20 }]}
           />
         ),
-        <View
-          key={`lineHalf${i}`}
-          style={[
-            styles.line,
-            { top: offset * (index + 0.5), width: width - 20 },
-          ]}
-        />,
       ];
+
+      if (lineHalf) {
+        array.push(
+          <Dash
+            key={`lineHalf${i}`}
+            dashThickness={1}
+            dashColor={'#CCCCCC'}
+            style={[
+              styles.line,
+              { top: offset * (index + 0.5), width: width - 20 },
+            ]}
+          />
+        );
+      }
+      return array;
     });
   }
 
@@ -155,10 +170,9 @@ export default class DayView extends React.PureComponent {
       return (
         <TouchableOpacity
           activeOpacity={0.5}
-          onPress={() =>
-            this._onEventTapped(this.props.events[event.index])
-          }
-          key={i} style={[styles.event, style, event.color && eventColor]}
+          onPress={() => this._onEventTapped(this.props.events[event.index])}
+          key={i}
+          style={[styles.event, style, event.color && eventColor]}
         >
           {this.props.renderEvent ? (
             this.props.renderEvent(event)

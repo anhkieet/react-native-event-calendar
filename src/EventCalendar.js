@@ -75,6 +75,7 @@ export default class EventCalendar extends React.Component {
       end = 24,
       formatHeader,
       upperCaseHeader = false,
+      lineHalf,
     } = this.props;
     const date = moment(initDate).add(index - this.props.size, 'days');
 
@@ -121,6 +122,7 @@ export default class EventCalendar extends React.Component {
           headerStyle={this.props.headerStyle}
           renderEvent={this.props.renderEvent}
           eventTapped={this.props.eventTapped}
+          lineHalf={lineHalf}
           events={item}
           width={width}
           styles={this.styles}
@@ -176,12 +178,7 @@ export default class EventCalendar extends React.Component {
   };
 
   render() {
-    const {
-      width,
-      virtualizedListProps,
-      events,
-      initDate,
-    } = this.props;
+    const { width, virtualizedListProps, events, initDate } = this.props;
 
     return (
       <View style={[this.styles.container, { width }]}>
