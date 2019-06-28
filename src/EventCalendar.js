@@ -30,9 +30,9 @@ export default class EventCalendar extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.start !== this.props.start || nextProps.end !== this.props.end) {
-      const start = this.props.start ? this.props.start : 0;
-      const end = this.props.end ? this.props.end : 24;
-      this.styles = styleConstructor(this.props.styles, (end - start) * 100);
+      const start = nextProps.start ? nextProps.start : 0;
+      const end = nextProps.end ? nextProps.end : 24;
+      this.styles = styleConstructor(nextProps.styles, (end - start) * 100);
     }
   }
 

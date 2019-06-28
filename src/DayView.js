@@ -36,6 +36,8 @@ export default class DayView extends React.PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const width = nextProps.width - LEFT_MARGIN - RIGHT_MARGIN;
+    this.calendarHeight = (nextProps.end - nextProps.start) * (nextProps.hourHeight || 100);
+
     this.setState({
       packedEvents: populateEvents(nextProps.events, width, nextProps.start, (this.props.hourHeight || 100)),
     });
