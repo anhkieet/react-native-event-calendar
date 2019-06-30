@@ -34,7 +34,14 @@ export default class EventCalendar extends React.Component {
       const end = nextProps.end ? nextProps.end : 24;
       this.styles = styleConstructor(nextProps.styles, (end - start) * 100);
     }
+    if (nextProps.initDate !== this.state.date) {
+      this.state = {
+        date: moment(nextProps.initDate),
+        index: nextProps.size,
+      };
+    }
   }
+
 
   componentDidMount() {
     if (this.props.onRef) {
