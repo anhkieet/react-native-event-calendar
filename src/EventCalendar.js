@@ -203,7 +203,7 @@ export default class EventCalendar extends React.Component {
           initialNumToRender={2}
           initialScrollIndex={this.props.size}
           data={events}
-          getItemCount={() => this.props.size * 2}
+          getItemCount={() => this.props.size * 2 || 1}
           getItem={this._getItem.bind(this)}
           keyExtractor={(item, index) => index.toString()}
           getItemLayout={this._getItemLayout.bind(this)}
